@@ -1,6 +1,6 @@
 FROM python:3-alpine
 
-MAINTAINER strahe <u@strahe.com>
+MAINTAINER fireinice <fireinice@gmail.com>
 
 WORKDIR /app
 

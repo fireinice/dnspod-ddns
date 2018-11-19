@@ -5,8 +5,8 @@ import logging
 
 # 定义配置文件目录
 # linux
-# config_path = '/etc/dnspod/ddnsrc'
-config_path = './example-ddnspod.cfg'
+config_path = '/etc/dnspod/ddnsrc'
+# config_path = './example-ddnspod.cfg'
 # windows
 if os.name == 'nt':
     config_path = 'ddnspod.cfg'
