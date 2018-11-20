@@ -86,7 +86,7 @@ def read_config_from_argv():
 
 def save_config():
     try:
-        save_config_to_env()
+        # save_config_to_env()
         save_config_to_file()
     except NotImplementedError as err:
         logging.error("FAILED to save config:" + str(err))
@@ -94,9 +94,9 @@ def save_config():
 # 不太清楚这个函数能干啥用 = = 写着玩。。。
 
 
-def save_config_to_env():
-    for key in cfg:
-        os.environ[key] = cfg[key]
+# def save_config_to_env():
+#     for key in cfg:
+#         os.environ[key] = cfg[key]
 
 # 保存配置到文件… 这个函数现在会把配置文件里的注释也删掉……
 
