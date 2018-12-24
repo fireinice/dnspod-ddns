@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import asyncio
 import json
-import signal
-import functools
 import logging
 import socket
 import time
@@ -106,16 +103,4 @@ if __name__ == '__main__':
     check_config()
     cfg['record_id'] = get_record_ids()
     logging.info("watching ip for ddns: %s.%s" % (cfg['sub_domain'], cfg['domain']))
-
-    loop = asyncio.get_event_loop()
-    for sig_name in ('SIGINT', 'SIGTERM'):
-        try:
-            loop.add_signal_handler(getattr(signal, sig_name), functools.partial(ask_exit, sig_name))
-        except NotImplementedError:
-            pass  # 使兼容 WINDOWS
-    try:
-        loop.run_until_complete(main())
-    except (KeyboardInterrupt, RuntimeError):
-        logging.info('stop...')
-    finally:
-        loop.close()
+    main()
