@@ -65,30 +65,31 @@ def update_records():
 
 # async def main():
 def main():
+    interval = 5
+    ip_count = 1
+    ip_pool = []
+    try:
+        interval = int(cfg['interval'])
+        ip_count = int(cfg['ip_count'])
+        ip_pool = cfg['ip_pool'].split(',')[:ip_count]
+    except ValueError:
+        pass
     while 1:
         current_ip = get_ip()
         if current_ip:
             # 对于拥有多个出口 IP 负载均衡的服务器，上面的 get_ip() 函数会在几个 ip 之间不停切换
             # 然后频繁进入这个判断，进行 update_record()，然后很快就会触发 API Limited 了
             # 于是建立一个IP池记载这个服务器的几个出口IP，以免频繁切换
-            ip_count = int(cfg['ip_count'])
-            ip_pool = cfg['ip_pool'].split(',')[:ip_count]
-            cfg['current_ip'] = current_ip
             if current_ip not in ip_pool:
                 # new ip found
                 logging.info("new ip found: %s", current_ip)
-                
+                cfg['current_ip'] = current_ip
                 ip_pool.insert(0, current_ip)
                 cfg['ip_pool'] = ','.join([str(x) for x in ip_pool[:ip_count]])
                 update_records()
                 save_config()
         else:
             logging.error('get current ip FAILED.')
-
-        try:
-            interval = int(cfg['interval'])
-        except ValueError:
-            interval = 5
         # await asyncio.sleep(interval)
         time.sleep(interval)
 
